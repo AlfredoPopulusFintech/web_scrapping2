@@ -1,0 +1,10 @@
+build:
+  docker:
+    web: Dockerfile
+run:
+  web: $HOME/.poetry/bin/poetry run gunicorn -b $IP:$PORT --access-logfile - --error-logfile - aioapp:aioapp -k aiohttp.worker.GunicornWebWorker
+
+release:
+  command:
+    - $HOME/.poetry/bin/poetry run flask db migrate || $HOME/.poetry/bin/poetry run flask db upgrade
+  image: web
